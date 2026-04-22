@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MAZKIPLAY HUNTING DORK HUNTER</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff003c;
+            --bg-dark: #09090b;
+            --card-bg: #121217;
+            --accent: #1e1e26;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        #disclaimerOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .disclaimer-card {
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 0, 60, 0.3);
+        }
+
+        .mobile-container {
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--bg-dark);
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        .header-app {
+            background: linear-gradient(180deg, rgba(255,0,60,0.2) 0%, rgba(9,9,11,0) 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .search-area {
+            padding: 20px;
+            margin-top: -30px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--accent);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-mobile {
+            background: #1c1c24 !important;
+            border: 1px solid var(--accent) !important;
+            color: white !important;
+            border-radius: 12px !important;
+            padding: 12px 15px;
+            font-size: 16px;
+        }
+
+        .btn-hunt {
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-hunt:active {
+            transform: scale(0.95);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 0 20px;
+        }
+
+        .stat-item {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--accent);
+        }
+
+        .stat-val {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #888;
+        }
+
+        .result-area {
+            padding: 20px;
+        }
+
+        .dork-item {
+            background: #1c1c24;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .dork-meta {
+            font-size: 10px;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dork-pattern {
+            font-family: monospace;
+            font-size: 13px;
+            color: #ffc107;
+            word-break: break-all;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .engine-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding-bottom: 5px;
+        }
+
+        .engine-link {
+            flex: 0 0 auto;
+            background: #2d2d3a;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .engine-link:active {
+            background: var(--primary);
+        }
+
+        .loading-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        ::-webkit-scrollbar { width: 0px; height: 0px; }
+    </style>
+</head>
+<body>
+
+    <div id="disclaimerOverlay">
+        <div class="disclaimer-card">
+            <div class="logo-box">
+                <i class="fas fa-shield-alt fa-2x"></i>
+            </div>
+            <h4 class="fw-bold mb-3">DISCLAIMER</h4>
+            <p class="small text-muted mb-4">
+                MAZKIPLAY HUNTING DORK HUNTER dirancang khusus untuk keperluan edukasi dan pengujian penetrasi legal (Ethical Hacking). <br><br>
+                Segala tindakan penyalahgunaan tool ini untuk kegiatan ilegal di luar tanggung jawab pengembang. 
+            </p>
+            <div class="form-check text-start mb-4 bg-dark p-3 rounded" style="margin-left:0;">
+                <input class="form-check-input" type="checkbox" id="agreeCheck" style="margin-left: 0.5em;">
+                <label class="form-check-label small ms-2" for="agreeCheck">
+                    Saya mengerti dan bertanggung jawab penuh atas tindakan saya.
+                </label>
+            </div>
+            <button id="enterApp" class="btn btn-hunt" disabled>MASUK DASHBOARD</button>
+        </div>
+    </div>
+
+    <div class="mobile-container d-none" id="mainApp">
+        <div class="header-app">
+            <div class="logo-box">
+                <i class="fas fa-skull-crossbones fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-1">MAZKIPLAY HUNTING</h5>
+            <p class="small text-muted mb-0">DORK HUNTER v2.0</p>
+        </div>
+
+        <div class="search-area">
+            <div class="glass-card shadow-lg">
+                <label class="small text-muted mb-2"><i class="fas fa-crosshairs me-1"></i> TARGET DOMAIN / IP</label>
+                <input type="text" id="targetInput" class="form-control input-mobile" placeholder="example.com" value="pekalongankab.go.id">
+                <button class="btn btn-hunt" id="huntBtn" onclick="startBrutalHunt()">
+                    <i class="fas fa-bolt me-2"></i>MULAI HUNTING
+                </button>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-item">
+                <span class="stat-val" id="countVal">0</span>
+                <span class="stat-label">Total Dork</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val" id="timeVal">--:--</span>
+                <span class="stat-label">Waktu Scan</span>
+            </div>
+        </div>
+
+        <div class="result-area">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0"><i class="fas fa-stream me-2 text-primary"></i>HASIL HUNTING</h6>
+                <span class="badge bg-dark border border-secondary" id="targetBadge">None</span>
+            </div>
+
+            <div id="resultsContainer">
+                <div class="text-center py-5 text-muted">
+                    <i class="fas fa-search fa-3x mb-3 opacity-25"></i>
+                    <p>Belum ada data. Silahkan mulai hunting.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DORKS_DB = {
+            "SENSITIVE_FILES": [
+                'inurl:".env" | "wp-config.php" | "config.php" | "database.yml"',
+                'inurl:(api_key | secret_key | db_password | mysql_pass | aws_secret) filetype:(php|env|txt|conf|config)',
+                '("private_key" | "rsa_key" | ".pem" | ".ppk") filetype:pem'
+            ],
+            "ADMIN_PANELS": [
+                'intitle:"admin" inurl:(login.php | admin.php | panel | dashboard) -signup',
+                'inurl:(/admin/ | /administrator/ | /wp-admin/) filetype:php',
+                'intitle:"Index of" ("wp-content/uploads" | ".git" | ".svn" | "backup")'
+            ],
+            "DATA_EXPOSURE": [
+                'filetype:(sql | mysql | dump | backup) ("insert into" | "create table")',
+                'filetype:(xls | xlsx | csv) ("password" | "user_id" | "email" | "nik")',
+                'filetype:pdf ("confidential" | "internal" | "KTP" | "NIK")'
+            ],
+            "EXPLOIT_LEAK": [
+                '("backdoor" | "shell" | "webshell" | "c99" | "r57") filetype:php',
+                'inurl:shell.php intitle:"Cmd" OR intitle:"Terminal"'
+            ]
+        };
+
+        $('#agreeCheck').on('change', function() {
+            $('#enterApp').prop('disabled', !this.checked);
+        });
+
+        $('#enterApp').on('click', function() {
+            $('#disclaimerOverlay').fadeOut();
+            $('#mainApp').removeClass('d-none');
+        });
+
+        async function resolveTarget(target) {
+            try {
+                const res = await fetch(`https://dns.google/resolve?name=${target}`);
+                const data = await res.json();
+                if (data.Status === 0 && data.Answer) {
+                    return { ip: data.Answer[0].data, resolved: true };
+                }
+            } catch(e) {}
+            return { ip: target, resolved: false };
+        }
+
+        async function startBrutalHunt() {
+            const target = $('#targetInput').val().trim();
+            if (!target) return;
+
+            const btn = $('#huntBtn');
+            btn.html('<i class="fas fa-spinner loading-spin me-2"></i>PROSES...').prop('disabled', true);
+            
+            const targetInfo = await resolveTarget(target);
+            $('#targetBadge').text(targetInfo.resolved ? targetInfo.ip : target);
+            
+            const results = [];
+            for (const [cat, patterns] of Object.entries(DORKS_DB)) {
+                patterns.forEach(p => {
+                    const finalDork = `site:${target} ${p}`;
+                    results.push({ cat: cat.replace('_',' '), dork: finalDork });
+                    
+                    if (targetInfo.resolved) {
+                        results.push({ cat: cat.replace('_',' ') + ' (IP)', dork: `ip:${targetInfo.ip} ${p}` });
+                    }
+                });
+            }
+
+            $('#countVal').text(results.length);
+            $('#timeVal').text(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+            let html = '';
+            results.forEach(item => {
+                const encoded = encodeURIComponent(item.dork);
+                html += `
+                    <div class="dork-item">
+                        <div class="dork-meta">${item.cat}</div>
+                        <span class="dork-pattern" onclick="copyDork('${item.dork.replace(/'/g, "\\'")}')">${item.dork}</span>
+                        <div class="engine-scroll">
+                            <a href="https://www.google.com/search?q=${encoded}" target="_blank" class="engine-link">
+                                <i class="fab fa-google"></i> Google
+                            </a>
+                            <a href="https://www.bing.com/search?q=${encoded}" target="_blank" class="engine-link">
+                                <i class="fab fa-microsoft"></i> Bing
+                            </a>
+                            <a href="https://www.shodan.io/search?query=${encoded}" target="_blank" class="engine-link">
+                                <i class="fas fa-shield-alt"></i> Shodan
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+
+            $('#resultsContainer').html(html);
+            btn.html('<i class="fas fa-bolt me-2"></i>MULAI HUNTING').prop('disabled', false);
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+
+        function copyDork(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert('Dork disalin ke clipboard!');
+        }
+
+        $('#targetInput').keypress(function(e) { if(e.which == 13) startBrutalHunt(); });
+    </script>
+</body>
+</html>
