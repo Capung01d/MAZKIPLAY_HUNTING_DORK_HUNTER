@@ -8,378 +8,389 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <style>
         :root {
             --primary: #ff003c;
-            --bg-dark: #09090b;
-            --card-bg: #121217;
-            --accent: #1e1e26;
+            --secondary: #00f2ff;
+            --bg-dark: #050505;
+            --card-bg: #0d0d0f;
+            --accent: #1a1a22;
+            --neon-shadow: 0 0 15px rgba(255, 0, 60, 0.4);
         }
-
         body {
             background-color: var(--bg-dark);
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
             overflow-x: hidden;
             margin: 0;
             padding: 0;
         }
-
         #disclaimerOverlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 9999;
+            background: rgba(0,0,0,0.98);
+            z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-
         .disclaimer-card {
             background: var(--card-bg);
-            border: 2px solid var(--primary);
-            border-radius: 20px;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
             padding: 30px;
             max-width: 450px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 0 30px rgba(255, 0, 60, 0.3);
+            box-shadow: var(--neon-shadow);
         }
-
         .mobile-container {
             max-width: 500px;
             margin: 0 auto;
             min-height: 100vh;
             background: var(--bg-dark);
             position: relative;
-            padding-bottom: 80px;
+            padding-bottom: 50px;
+            border-left: 1px solid var(--accent);
+            border-right: 1px solid var(--accent);
         }
-
         .header-app {
-            background: linear-gradient(180deg, rgba(255,0,60,0.2) 0%, rgba(9,9,11,0) 100%);
+            background: linear-gradient(180deg, #1a0006 0%, #050505 100%);
             padding: 40px 20px;
             text-align: center;
-            border-bottom: 1px solid var(--accent);
+            border-bottom: 2px solid var(--primary);
         }
-
         .logo-box {
-            width: 80px;
-            height: 80px;
-            background: var(--primary);
-            border-radius: 20px;
+            width: 70px;
+            height: 70px;
+            border: 2px solid var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 15px;
-            box-shadow: 0 0 20px var(--primary);
+            box-shadow: var(--neon-shadow);
+            transform: rotate(45deg);
         }
-
+        .logo-box i {
+            transform: rotate(-45deg);
+            color: var(--primary);
+        }
         .search-area {
             padding: 20px;
-            margin-top: -30px;
+            margin-top: -20px;
         }
-
         .glass-card {
             background: var(--card-bg);
-            border-radius: 15px;
             border: 1px solid var(--accent);
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 20px;
         }
-
         .input-mobile {
-            background: #1c1c24 !important;
-            border: 1px solid var(--accent) !important;
-            color: white !important;
-            border-radius: 12px !important;
-            padding: 12px 15px;
+            background: #000 !important;
+            border: 1px solid var(--primary) !important;
+            color: var(--secondary) !important;
+            border-radius: 0 !important;
+            padding: 12px;
             font-size: 16px;
+            font-family: monospace;
         }
-
         .btn-hunt {
             background: var(--primary);
+            color: white;
             border: none;
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 0;
+            padding: 15px;
             font-weight: bold;
             width: 100%;
-            margin-top: 10px;
-            transition: 0.3s;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.2s;
+            cursor: pointer;
         }
-
         .btn-hunt:active {
-            transform: scale(0.95);
+            background: #cc0030;
         }
-
         .stat-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             padding: 0 20px;
+            margin-bottom: 20px;
         }
-
         .stat-item {
-            background: var(--card-bg);
+            background: #0a0a0c;
             padding: 15px;
-            border-radius: 15px;
             text-align: center;
             border: 1px solid var(--accent);
         }
-
         .stat-val {
             display: block;
-            font-size: 20px;
+            font-size: 14px;
             font-weight: bold;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            color: #888;
-        }
-
-        .result-area {
-            padding: 20px;
-        }
-
-        .dork-item {
-            background: #1c1c24;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .dork-meta {
-            font-size: 10px;
-            color: #888;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .dork-pattern {
-            font-family: monospace;
-            font-size: 13px;
-            color: #ffc107;
+            color: var(--secondary);
             word-break: break-all;
-            margin-bottom: 10px;
-            display: block;
         }
-
+        .stat-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .result-area {
+            padding: 0 20px;
+        }
+        .category-title {
+            color: var(--primary);
+            font-size: 12px;
+            margin: 25px 0 10px;
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .info-card {
+            background: #0d0d0f;
+            border: 1px solid var(--secondary);
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 11px;
+            color: var(--secondary);
+        }
+        .dork-item {
+            background: #0d0d0f;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #1a1a22;
+        }
+        .dork-meta {
+            font-size: 9px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .dork-pattern {
+            color: #00ff41;
+            font-size: 12px;
+            word-break: break-all;
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 5px;
+            background: rgba(0,255,65,0.05);
+        }
         .engine-scroll {
             display: flex;
             overflow-x: auto;
-            gap: 8px;
-            padding-bottom: 5px;
+            gap: 10px;
         }
-
         .engine-link {
-            flex: 0 0 auto;
-            background: #2d2d3a;
-            color: white;
+            background: #1a1a22;
+            color: #aaa;
             text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            padding: 5px 12px;
+            font-size: 11px;
+            border: 1px solid #333;
         }
-
-        .engine-link:active {
-            background: var(--primary);
+        .engine-link:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
         }
-
         .loading-spin {
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
-
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        ::-webkit-scrollbar { width: 0px; height: 0px; }
     </style>
 </head>
 <body>
-
     <div id="disclaimerOverlay">
         <div class="disclaimer-card">
             <div class="logo-box">
-                <i class="fas fa-shield-alt fa-2x"></i>
+                <i class="fas fa-biohazard fa-2x"></i>
             </div>
-            <h4 class="fw-bold mb-3">DISCLAIMER</h4>
-            <p class="small text-muted mb-4">
-                MAZKIPLAY HUNTING DORK HUNTER dirancang khusus untuk keperluan edukasi dan pengujian penetrasi legal (Ethical Hacking). <br><br>
-                Segala tindakan penyalahgunaan tool ini untuk kegiatan ilegal di luar tanggung jawab pengembang. 
+            <h4 class="fw-bold mb-3" style="color:var(--primary)">SYSTEM WARNING</h4>
+            <p class="small mb-4" style="color:#888">
+                PENGGUNAAN TOOL MAZKIPLAY HUNTING DORK HUNTER ADALAH UNTUK KEPERLUAN AUDIT KEAMANAN LEGAL. SEGALA RISIKO PENYALAHGUNAAN ADALAH TANGGUNG JAWAB PENUH USER.
             </p>
-            <div class="form-check text-start mb-4 bg-dark p-3 rounded" style="margin-left:0;">
-                <input class="form-check-input" type="checkbox" id="agreeCheck" style="margin-left: 0.5em;">
+            <div class="form-check text-start mb-4 bg-black p-3" style="border:1px solid #222;">
+                <input class="form-check-input" type="checkbox" id="agreeCheck">
                 <label class="form-check-label small ms-2" for="agreeCheck">
-                    Saya mengerti dan bertanggung jawab penuh atas tindakan saya.
+                    SAYA SETUJU & BERTANGGUNG JAWAB
                 </label>
             </div>
-            <button id="enterApp" class="btn btn-hunt" disabled>MASUK DASHBOARD</button>
+            <button id="enterApp" class="btn-hunt" style="margin-top:0" disabled>INITIALIZE ACCESS</button>
         </div>
     </div>
-
     <div class="mobile-container d-none" id="mainApp">
         <div class="header-app">
             <div class="logo-box">
-                <i class="fas fa-skull-crossbones fa-2x"></i>
+                <i class="fas fa-user-secret fa-2x"></i>
             </div>
-            <h5 class="fw-bold mb-1">MAZKIPLAY HUNTING</h5>
-            <p class="small text-muted mb-0">DORK HUNTER v2.0</p>
+            <h5 class="fw-bold mb-1" style="letter-spacing:3px">MAZKIPLAY HUNTING</h5>
+            <p class="small mb-0" style="color:var(--secondary)">BRUTAL SENSITIVE HUNTER v7.0</p>
         </div>
-
         <div class="search-area">
-            <div class="glass-card shadow-lg">
-                <label class="small text-muted mb-2"><i class="fas fa-crosshairs me-1"></i> TARGET DOMAIN / IP</label>
-                <input type="text" id="targetInput" class="form-control input-mobile" placeholder="example.com" value="pekalongankab.go.id">
-                <button class="btn btn-hunt" id="huntBtn" onclick="startBrutalHunt()">
-                    <i class="fas fa-bolt me-2"></i>MULAI HUNTING
+            <div class="glass-card">
+                <label class="small mb-2" style="color:#666">TERMINAL_INPUT: DOMAIN_OR_IP</label>
+                <input type="text" id="targetInput" class="form-control input-mobile" placeholder="example.com OR 1.1.1.1" value="">
+                <button class="btn-hunt" id="huntBtn">
+                    EXECUTE BRUTAL RECON
                 </button>
             </div>
         </div>
-
         <div class="stat-grid">
             <div class="stat-item">
-                <span class="stat-val" id="countVal">0</span>
-                <span class="stat-label">Total Dork</span>
+                <span class="stat-val" id="targetType">-</span>
+                <span class="stat-label">Target Type</span>
             </div>
             <div class="stat-item">
-                <span class="stat-val" id="timeVal">--:--</span>
-                <span class="stat-label">Waktu Scan</span>
+                <span class="stat-val" id="ipVal">-</span>
+                <span class="stat-label">Resolved IP</span>
             </div>
         </div>
-
         <div class="result-area">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="mb-0"><i class="fas fa-stream me-2 text-primary"></i>HASIL HUNTING</h6>
-                <span class="badge bg-dark border border-secondary" id="targetBadge">None</span>
-            </div>
-
+            <div id="infraSection"></div>
             <div id="resultsContainer">
-                <div class="text-center py-5 text-muted">
-                    <i class="fas fa-search fa-3x mb-3 opacity-25"></i>
-                    <p>Belum ada data. Silahkan mulai hunting.</p>
+                <div class="text-center py-5" style="color:#333">
+                    <i class="fas fa-terminal fa-3x mb-3"></i>
+                    <p class="small">WAITING FOR INPUT...</p>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
-        const DORKS_DB = {
-            "SENSITIVE_FILES": [
-                'inurl:".env" | "wp-config.php" | "config.php" | "database.yml"',
-                'inurl:(api_key | secret_key | db_password | mysql_pass | aws_secret) filetype:(php|env|txt|conf|config)',
-                '("private_key" | "rsa_key" | ".pem" | ".ppk") filetype:pem'
-            ],
-            "ADMIN_PANELS": [
-                'intitle:"admin" inurl:(login.php | admin.php | panel | dashboard) -signup',
-                'inurl:(/admin/ | /administrator/ | /wp-admin/) filetype:php',
-                'intitle:"Index of" ("wp-content/uploads" | ".git" | ".svn" | "backup")'
-            ],
-            "DATA_EXPOSURE": [
-                'filetype:(sql | mysql | dump | backup) ("insert into" | "create table")',
-                'filetype:(xls | xlsx | csv) ("password" | "user_id" | "email" | "nik")',
-                'filetype:pdf ("confidential" | "internal" | "KTP" | "NIK")'
-            ],
-            "EXPLOIT_LEAK": [
-                '("backdoor" | "shell" | "webshell" | "c99" | "r57") filetype:php',
-                'inurl:shell.php intitle:"Cmd" OR intitle:"Terminal"'
-            ]
-        };
-
-        $('#agreeCheck').on('change', function() {
-            $('#enterApp').prop('disabled', !this.checked);
-        });
-
-        $('#enterApp').on('click', function() {
-            $('#disclaimerOverlay').fadeOut();
-            $('#mainApp').removeClass('d-none');
-        });
-
-        async function resolveTarget(target) {
-            try {
-                const res = await fetch(`https://dns.google/resolve?name=${target}`);
-                const data = await res.json();
-                if (data.Status === 0 && data.Answer) {
-                    return { ip: data.Answer[0].data, resolved: true };
-                }
-            } catch(e) {}
-            return { ip: target, resolved: false };
-        }
-
-        async function startBrutalHunt() {
-            const target = $('#targetInput').val().trim();
-            if (!target) return;
-
-            const btn = $('#huntBtn');
-            btn.html('<i class="fas fa-spinner loading-spin me-2"></i>PROSES...').prop('disabled', true);
-            
-            const targetInfo = await resolveTarget(target);
-            $('#targetBadge').text(targetInfo.resolved ? targetInfo.ip : target);
-            
-            const results = [];
-            for (const [cat, patterns] of Object.entries(DORKS_DB)) {
-                patterns.forEach(p => {
-                    const finalDork = `site:${target} ${p}`;
-                    results.push({ cat: cat.replace('_',' '), dork: finalDork });
-                    
-                    if (targetInfo.resolved) {
-                        results.push({ cat: cat.replace('_',' ') + ' (IP)', dork: `ip:${targetInfo.ip} ${p}` });
-                    }
-                });
+        $(document).ready(function() {
+            const DORK_CATEGORIES = {
+                "GOVERNMENT_&_STATE_LEAKS": [
+                    'filetype:pdf "SURAT KEPUTUSAN" | "RAHASIA NEGARA"',
+                    'filetype:xlsx "ANGGARAN NEGARA" | "LAPORAN KEUANGAN"',
+                    'site:go.id filetype:sql | filetype:env',
+                    'site:go.id "NIK" | "NOMOR INDUK KEPENDUDUKAN"',
+                    'site:go.id "internal" | "confidential" filetype:doc'
+                ],
+                "BANKING_&_FINANCE_EXPOSURE": [
+                    'filetype:pdf "REKENING KORAN" | "BANK STATEMENT"',
+                    'filetype:xlsx "DAFTAR NASABAH" | "CUSTOMER DATA"',
+                    'filetype:pdf "SWIFT" | "IBAN" | "ACCOUNT NUMBER"',
+                    'inurl:banking | inurl:finance "password="',
+                    'ext:log "bank" | "transaksi" "success"'
+                ],
+                "CITIZEN_DATA_LEAKS_(NIK/KK)": [
+                    'filetype:pdf "NIK" | "KK" | "DPT"',
+                    'filetype:xlsx "KTP" | "KARTU KELUARGA"',
+                    'intitle:"index of" "identitas" | "ktp" | "kk"',
+                    'ext:txt "nik" | "kk" "password"'
+                ],
+                "ADMIN_&_LOGIN_CRITICAL": [
+                    'inurl:admin | inurl:login | inurl:wp-login',
+                    'inurl:cpanel | inurl:webmail | inurl:dashboard',
+                    'intitle:"Administrator Login" | intitle:"Sign In"',
+                    'inurl:/admin/config.php | inurl:/phpmyadmin/'
+                ],
+                "SUBDOMAIN_BRUTAL": [
+                    'site:*.target -www',
+                    'site:dev.target | site:api.target',
+                    'site:staging.target | site:test.target',
+                    'site:mail.target | site:vpn.target'
+                ],
+                "SENSITIVE_CONFIG_&_SQL": [
+                    'inurl:".env" | "wp-config.php"',
+                    'ext:sql | ext:db | ext:sqlite "password"',
+                    'inurl:index.php?id=',
+                    'inurl:search.php?q=',
+                    'inurl:view.php?id='
+                ]
+            };
+            function isIP(str) {
+                const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+                return regex.test(str);
             }
-
-            $('#countVal').text(results.length);
-            $('#timeVal').text(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-
-            let html = '';
-            results.forEach(item => {
-                const encoded = encodeURIComponent(item.dork);
-                html += `
-                    <div class="dork-item">
-                        <div class="dork-meta">${item.cat}</div>
-                        <span class="dork-pattern" onclick="copyDork('${item.dork.replace(/'/g, "\\'")}')">${item.dork}</span>
-                        <div class="engine-scroll">
-                            <a href="https://www.google.com/search?q=${encoded}" target="_blank" class="engine-link">
-                                <i class="fab fa-google"></i> Google
-                            </a>
-                            <a href="https://www.bing.com/search?q=${encoded}" target="_blank" class="engine-link">
-                                <i class="fab fa-microsoft"></i> Bing
-                            </a>
-                            <a href="https://www.shodan.io/search?query=${encoded}" target="_blank" class="engine-link">
-                                <i class="fas fa-shield-alt"></i> Shodan
-                            </a>
-                        </div>
+            $('#agreeCheck').on('change', function() {
+                $('#enterApp').prop('disabled', !this.checked);
+            });
+            $('#enterApp').on('click', function() {
+                $('#disclaimerOverlay').fadeOut();
+                $('#mainApp').removeClass('d-none');
+            });
+            window.copyDork = function(text) {
+                const el = document.createElement('textarea');
+                el.value = text;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                alert('DORK COPIED');
+            };
+            async function fetchInfra(target) {
+                let ip = "N/A";
+                let type = "DOMAIN";
+                if(isIP(target)) {
+                    ip = target;
+                    type = "IP_ADDRESS";
+                } else {
+                    try {
+                        const dnsRes = await fetch(`https://dns.google/resolve?name=${target}`);
+                        const dnsData = await dnsRes.json();
+                        ip = dnsData.Answer ? dnsData.Answer[0].data : "Unknown";
+                    } catch(e) { ip = "Error"; }
+                }
+                $('#targetType').text(type);
+                $('#ipVal').text(ip);
+                let infraHtml = `
+                    <div class="category-title">INFRASTRUCTURE RECON</div>
+                    <div class="info-card">
+                        <p class="mb-1"><strong>Target:</strong> ${target}</p>
+                        <p class="mb-1"><strong>Resolved:</strong> ${ip}</p>
+                        <p class="mb-1"><strong>Port Scan:</strong> <a href="https://viewdns.info/portscan/?host=${target}" target="_blank" style="color:var(--secondary)">Scan Open Ports</a></p>
+                        <p class="mb-1"><strong>Whois:</strong> <a href="https://viewdns.info/whois/?domain=${target}" target="_blank" style="color:var(--secondary)">Whois Lookup</a></p>
+                        <p class="mb-0"><strong>Subdomains:</strong> <a href="https://subdomainfinder.c99.nl/index.php?domain=${target}" target="_blank" style="color:var(--secondary)">External Scanner</a></p>
                     </div>
                 `;
+                $('#infraSection').html(infraHtml);
+                return { type, ip };
+            }
+            async function generateResults() {
+                const target = $('#targetInput').val().trim();
+                if (!target) return;
+                const btn = $('#huntBtn');
+                btn.html('<i class="fas fa-sync loading-spin"></i> RECONNING...').prop('disabled', true);
+                const info = await fetchInfra(target);
+                let html = '';
+                setTimeout(() => {
+                    for (const [cat, patterns] of Object.entries(DORK_CATEGORIES)) {
+                        html += `<div class="category-title">${cat.replace(/_/g, ' ')}</div>`;
+                        patterns.forEach(p => {
+                            let dorkPattern = p;
+                            if (p.includes('target')) {
+                                dorkPattern = p.replace(/target/g, target);
+                            }
+                            const prefix = info.type === "DOMAIN" ? `site:${target}` : `ip:${target}`;
+                            const fullDork = p.includes('site:') || p.includes('target') ? dorkPattern : `${prefix} ${dorkPattern}`;
+                            const encoded = encodeURIComponent(fullDork);
+                            html += `
+                                <div class="dork-item">
+                                    <div class="dork-meta">${cat} | ${target}</div>
+                                    <span class="dork-pattern" onclick="copyDork('${fullDork.replace(/'/g, "\\'")}')">${fullDork}</span>
+                                    <div class="engine-scroll">
+                                        <a href="https://www.google.com/search?q=${encoded}" target="_blank" class="engine-link">GOOGLE</a>
+                                        <a href="https://www.bing.com/search?q=${encoded}" target="_blank" class="engine-link">BING</a>
+                                        <a href="https://yandex.com/search/?text=${encoded}" target="_blank" class="engine-link">YANDEX</a>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                    $('#resultsContainer').html(html);
+                    btn.html('EXECUTE BRUTAL RECON').prop('disabled', false);
+                }, 1000);
+            }
+            $('#huntBtn').on('click', generateResults);
+            $('#targetInput').on('keypress', function(e) {
+                if(e.which === 13) generateResults();
             });
-
-            $('#resultsContainer').html(html);
-            btn.html('<i class="fas fa-bolt me-2"></i>MULAI HUNTING').prop('disabled', false);
-            window.scrollTo({ top: 400, behavior: 'smooth' });
-        }
-
-        function copyDork(text) {
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            alert('Dork disalin ke clipboard!');
-        }
-
-        $('#targetInput').keypress(function(e) { if(e.which == 13) startBrutalHunt(); });
+        });
     </script>
 </body>
 </html>
